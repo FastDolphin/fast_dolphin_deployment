@@ -67,11 +67,29 @@ services:
 #      - ../fastdolphin_frontend/certs:/etc/letsencrypt/live/fast-dolphin.com
 #      - ../fastdolphin_frontend/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem
     ports:
-      - 80:80
-#      - 443:443
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      REACT_APP_ENV: ${REACT_APP_ENV}
+      REACT_APP_DEV_SERVER_URL: ${REACT_APP_DEV_SERVER_URL}
     depends_on:
       - api
       - mongodb
+
+  nginx:
+    build:
+      context: ..
+      dockerfile: ./fastdolphin_frontend/Dockerfile.nginx
+#    volumes:
+#      - ../sow_frontend/public:/var/www/html
+#      - ../sow_frontend/certs:/etc/letsencrypt/live/seaofwisdom.xyz
+    ports:
+      - "80:80"
+#      - "443:443"
+    depends_on:
+      - frontend
+      - api
 
 volumes:
   mongodb_data:
