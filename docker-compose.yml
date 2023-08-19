@@ -5,6 +5,7 @@ services:
     build:
       context: ..
       dockerfile: ./fast_dolphin_backend/Dockerfile
+    container_name: api
     ports:
       - 8000:8000
     environment:
@@ -33,6 +34,7 @@ services:
     build:
       context: ..
       dockerfile: ./fast_dolphin_telegram_bot/Dockerfile
+    container_name: tg-bot
     environment:
       TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
       ADMIN_NAME_EVG: ${ADMIN_NAME_EVG}
@@ -50,6 +52,7 @@ services:
 
   rabbitmq:
     image: "rabbitmq"
+    container_name: rabbitmq
     ports:
       - 5672:5672
 
