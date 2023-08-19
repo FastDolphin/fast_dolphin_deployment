@@ -46,5 +46,22 @@ services:
     ports:
       - 5672:5672
 
+  frontend:
+    build:
+      context: ..
+      dockerfile: ./fastdolphin_frontend/Dockerfile
+    container_name: frontend
+    working_dir: /app
+    tty: true
+#    volumes:
+#      - ../fastdolphin_frontend/certs:/etc/letsencrypt/live/fast-dolphin.com
+#      - ../fastdolphin_frontend/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem
+    ports:
+      - 80:80
+#      - 443:443
+    depends_on:
+      - api
+      - mongo
+
 volumes:
   mongodb_data:
