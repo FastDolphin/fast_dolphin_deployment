@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: ./fast_dolphin_backend/Dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGODB_NAME: ${MONGODB_NAME}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+
+  telegram-bot:
+    build:
+      context: ..
+      dockerfile: ./fast_dolphin_telegram_bot/Dockerfile
+    environment:
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      ADMIN_CHAT_ID: ${ADMIN_CHAT_ID}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_QUEUE: ${RABBITMQ_QUEUE}
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: "rabbitmq"
+    ports:
+      - 5672:5672
+
+volumes:
+  mongodb_data:
