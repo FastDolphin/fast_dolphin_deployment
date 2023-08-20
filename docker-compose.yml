@@ -81,8 +81,8 @@ services:
     build:
       context: ..
       dockerfile: ./fastdolphin_frontend/Dockerfile.nginx
-#    volumes:
-#      - ../sow_frontend/public:/var/www/html
+    volumes:
+      - ../fastdolphin_frontend/public:/var/www/html
 #      - ../sow_frontend/certs:/etc/letsencrypt/live/seaofwisdom.xyz
     ports:
       - "80:80"
