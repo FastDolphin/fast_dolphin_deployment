@@ -19,7 +19,8 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
       RABBITMQ_HOST: rabbitmq
-    depends_on:
+      ROUTING_KEY: ${ROUTING_KEY}
+  depends_on:
       - mongodb
       - rabbitmq
 
