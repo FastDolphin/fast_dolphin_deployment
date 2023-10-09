@@ -20,7 +20,7 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
       RABBITMQ_HOST: rabbitmq
       ROUTING_KEY: ${ROUTING_KEY}
-  depends_on:
+    depends_on:
       - mongodb
       - rabbitmq
 
